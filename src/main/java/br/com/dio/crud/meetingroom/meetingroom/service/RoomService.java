@@ -20,7 +20,7 @@ public class RoomService {
         return roomRepository.findAll();
     }
 
-    public Room getRoomById(long roomId) throws ResourceNotFoundException {
+    public Room getRoomById(Long roomId) throws ResourceNotFoundException {
         return roomRepository.findById(roomId)
                 .orElseThrow(() -> new ResourceNotFoundException("Room not found for this id:: " + roomId));
     }

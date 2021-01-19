@@ -4,6 +4,7 @@ import br.com.dio.crud.meetingroom.meetingroom.exception.ResourceNotFoundExcepti
 import br.com.dio.crud.meetingroom.meetingroom.model.Room;
 import br.com.dio.crud.meetingroom.meetingroom.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,27 +26,28 @@ public class RoomController {
     }
 
     @GetMapping("/rooms/{id}")
-    public ResponseEntity<Room> getRoomById(@PathVariable long id) throws ResourceNotFoundException {
+    public ResponseEntity<Room> getRoomById(@PathVariable(value = "id") Long id) throws ResourceNotFoundException {
         Room room = roomService.getRoomById(id);
 
         return ResponseEntity.ok().body(room);
     }
 
     @PostMapping("/rooms")
+    @ResponseStatus(HttpStatus.CREATED)
     public Room createRoom(@Valid @RequestBody Room newRoom) {
         return roomService.createRoom(newRoom);
     }
 
     @PutMapping("/rooms/{id}")
     public ResponseEntity<Room> updateRoom(
-            @PathVariable Long roomId,
+            @PathVariable(value = "id") Long roomId,
             @Valid @RequestBody Room roomDetails
     ) throws ResourceNotFoundException {
         return ResponseEntity.ok(roomService.updateRoom(roomId, roomDetails));
     }
 
     @DeleteMapping("/rooms/{id}")
-    public Map<String, Boolean> deleteRoom(@PathVariable Long roomId) throws ResourceNotFoundException {
+    public Map<String, Boolean> deleteRoom(@PathVariable(value = "id") Long roomId) throws ResourceNotFoundException {
         return roomService.deleteRoom(roomId);
     }
 }
